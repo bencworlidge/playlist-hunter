@@ -1,26 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react'
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
+class SearchBar extends Component {
+  render() {
+    return (
+      <div className='searchbar'>
+        <h3>Search For Playlists containing:</h3>
+        <input type="text"/>
+      </div>
+    )
+  }
+}
+
+class Aggregate extends Component {
+  render() {
+    return (
+      <div className="aggregate">
+        <p>NUMBER Playlists found containing SEARCH NAME</p>
+      </div>
+    )
+  }
+}
+
+class Playlist extends Component {
+  render() {
+    return (
+      <div className="playlist">
+        <p>Playlist Name</p>
+      </div>
+    )
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Playlist Hunter</h1>
       </header>
+      <SearchBar/>
+      <Aggregate/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
+      <Playlist/>
     </div>
-  );
+    )
+  };
 }
 
 export default App;
