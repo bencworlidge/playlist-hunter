@@ -1,95 +1,142 @@
 import React, { Component } from 'react'
-import logo from './logo.svg';
 import './App.css';
+import Spotify from './util/Spotify'
 
-/*
-TO DO:
-1 - Each playlist has username
-2 - Each playlist has othher songs included
-3 - Look less shit
+/* TO DO:
+1. Button For Log In 
+2. Look up .bind
 */
 
 class SearchBar extends Component {
+  constructor() {
+    super()
+    this.state = {
+      searchQuery: '',
+    }
+    this.search = this.search.bind(this);
+    this.handleTermChange = this.handleTermChange.bind(this);
+  }
+
+  search() {
+    this.props.onSearch(this.state.searchQuery)
+  }
+
+  handleTermChange(event) {
+    this.setState({ searchQuery: event.target.value })
+  }
 
   render() {
     return (
       <div className='searchbar'>
-        <h3>Search For Playlists containing:</h3>
-        <input type="text"/>
+        <h2>Track For Analysis:</h2>
+        <input 
+          type="text" 
+          placeholder="Track Title..." 
+          onChange={this.handleTermChange}
+        />
+        <button 
+          onClick={this.search}
+        >Search</button>
       </div>
     )
   }
 
 }
 
-class PlaylistCounter extends Component {
+class SearchResults extends Component {
 
   render() {
     return (
-      <div className="aggregate">
-        <p>{this.props.playlistNumber} playlists found containing "{this.props.searchQuery}"</p>
+      <div className="searchresults">
+        {this.props.tracks.map((track) => {
+          return (
+            <Track
+              track={track}
+              select = {this.select}
+            />          
+          );
+        })}
       </div>
     )
   }
-
+  
 }
 
-
-class Playlist extends Component {
+class Track extends Component {
 
   render() {
     return (
-      <div className="playlist">
-        <p>{this.props.playlistName}</p>
+      <div>
+        <button
+          onClick={this.props.select}
+        >
+          <p><strong>{this.props.track.name}</strong> - {this.props.track.artist}</p>
+        </button>
       </div>
     )
   }
+}
 
+class AnalysisPage extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      hidden: true,
+    };
+
+    render() {}
+
+  }
 }
 
 class App extends Component {
 
-  constructor() {
+  constructor(props) {
     super() 
     this.state = {
-      searchQuery: 'MoonHooch',
-      playlists: [
-        {name: 'Sick Playlist'},
-        {name: 'Cool Playlist'},
-        {name: 'Nice Playlist'},
-        {name: 'Love Playlist'},
-        {name: 'Trendy Playlist'},
-        {name: 'LOL Playlist'},
-        {name: 'Average Playlist'},
-        {name: 'Bad Playlist'},
-        {name: 'Cool Playlist'},
-        {name: 'Cool Playlist'},
-        {name: 'Cool Playlist'},
-        {name: 'Cool Playlist'},
-        {name: 'Mad Playlist'},
-      ],
+      tracks: [],
     }
+    this.search = this.search.bind(this);
+    this.select = this.select.bind(this)
   }
- 
+
+
+  search(searchQuery) { 
+    Spotify.search(searchQuery).then((searchResults) => {
+      this.setState({ tracks: searchResults });
+      console.log(searchResults)
+    });
+  }
+
+  select(trackId) {
+    Spotify.select(trackId)
+  }
+
   render() {
    
-    //const returnedPlaylists = this.state.playlists.map(playlist => <li>{playlist.name}</li>)
     return (
       
-    <div className="App">
-      <header className="App-header">
-        <h1>Playlist Hunter</h1>
-      </header>
-      <SearchBar/>
-      <PlaylistCounter playlistNumber = {this.state.playlists.length} 
-        searchQuery = {this.state.searchQuery}
-      />
-      {this.state.playlists.map((playlist) => 
-        <Playlist playlistName = {playlist.name}/>
-      )}
-    </div>
+      <div className="App">
+        <header className="App-header">
+          <h1>Advanced Track Analysis</h1>
+        </header>
+        <SearchBar
+          onSearch = {this.search}
+          searchQuery = {this.state.searchQuery}
+        />
+      
+        <SearchResults 
+          tracks = {this.state.tracks}
+          select = {this.select}
+          />
+        <AnalysisPage/>
+      </div>
+
     )
+
   };
+
 }
+
 
 export default App;

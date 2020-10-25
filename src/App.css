@@ -12,6 +12,10 @@ h1 {
   font-size: xx-large;
 }
 
+h2 {
+  color: black;
+}
+
 ul {
   text-align: left;
   list-style: none;
@@ -22,6 +26,32 @@ li {
   padding: 5px 10px;
   background-color: white;
   color: black;
+}
+
+p {
+  color: white;
+  background-color: darkgrey;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px black;
+}
+
+p:hover {
+  background-color: rgb(216, 216, 216);
+  cursor: pointer;
+}
+
+button {
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  color: white;
+  background-color: darkgrey;
+}
+
+button:hover {
+  background-color: rgb(216, 216, 216);
+  cursor: pointer;
 }
 
 /* - Components - */
@@ -36,13 +66,14 @@ li {
 .searchbar {
   background-color: white;
   margin: 0 15rem;
-  color: black;
-  padding: 10px;
-  padding-bottom: 30px;
+  color: white;
+  padding-top: 0.5px;
+  padding-bottom: 20px;
+  border-radius: 5px;
 }
 
 input {
-  height: 2rem;
+  height: 1.5rem;
   width: 20rem;
 }
 
@@ -53,11 +84,11 @@ input {
   margin-top: 25px;
 }
 
-.playlist {
-  background-color: white;
+.searchresults {
   color: black;
   height: 30px;
   text-align: left;
   padding-left: 1rem;
   margin-left: 1rem;
+  margin-right: 2rem;
 }
