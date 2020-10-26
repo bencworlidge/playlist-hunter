@@ -10,9 +10,7 @@ import Spotify from './util/Spotify'
 class SearchBar extends Component {
   constructor() {
     super()
-    this.state = {
-      searchQuery: '',
-    }
+
     this.search = this.search.bind(this);
     this.handleTermChange = this.handleTermChange.bind(this);
   }
@@ -35,8 +33,9 @@ class SearchBar extends Component {
           onChange={this.handleTermChange}
         />
         <button 
-          onClick={this.search}
-        >Search</button>
+          onClick={this.search}>
+        Search
+        </button>
       </div>
     )
   }
@@ -44,16 +43,27 @@ class SearchBar extends Component {
 }
 
 class SearchResults extends Component {
+  constructor() {
+    super()
+    this.state = {
+      trackId: ''
+    }
+  }
+
+  getTrackId(track) {
+    this.setState({trackId: track})
+  }
 
   render() {
     return (
       <div className="searchresults">
-        {this.props.tracks.map((track) => {
+        {this.props.tracks.map((track, i) => {
           return (
             <Track
+              key={i}
               track={track}
-              select = {this.select}
-            />          
+              
+            />         
           );
         })}
       </div>
@@ -62,30 +72,31 @@ class SearchResults extends Component {
   
 }
 
+// DONT FUCKING CHANGE THIS
 class Track extends Component {
+  constructor () {
+    super()
+    this.state = {
+      trackId: ''
+    }
+  } 
+
+  handleClick() {
+    this.setState({trackId: this.props.track.id})
+  }
 
   render() {
     return (
+      
       <div>
+        <p><strong>{this.props.track.name}</strong> - {this.props.track.artist}</p>
         <button
-          onClick={this.props.select}
-        >
-          <p><strong>{this.props.track.name}</strong> - {this.props.track.artist}</p>
+          onClick={() => this.handleClick()}>
+          Analysis
         </button>
+        
       </div>
     )
-  }
-}
-
-class AnalysisPage extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      hidden: true,
-    };
-
-    render() {}
-
   }
 }
 
@@ -95,23 +106,18 @@ class App extends Component {
     super() 
     this.state = {
       tracks: [],
+      trackId: ''
     }
     this.search = this.search.bind(this);
-    this.select = this.select.bind(this)
   }
-
 
   search(searchQuery) { 
     Spotify.search(searchQuery).then((searchResults) => {
       this.setState({ tracks: searchResults });
-      console.log(searchResults)
     });
   }
 
-  select(trackId) {
-    Spotify.select(trackId)
-  }
-
+ 
   render() {
    
     return (
@@ -127,9 +133,7 @@ class App extends Component {
       
         <SearchResults 
           tracks = {this.state.tracks}
-          select = {this.select}
           />
-        <AnalysisPage/>
       </div>
 
     )
