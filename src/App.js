@@ -43,16 +43,6 @@ class SearchBar extends Component {
 }
 
 class SearchResults extends Component {
-  constructor() {
-    super()
-    this.state = {
-      trackId: ''
-    }
-  }
-
-  getTrackId(track) {
-    this.setState({trackId: track})
-  }
 
   render() {
     return (
@@ -62,7 +52,6 @@ class SearchResults extends Component {
             <Track
               key={i}
               track={track}
-              
             />         
           );
         })}
@@ -72,33 +61,80 @@ class SearchResults extends Component {
   
 }
 
-// DONT FUCKING CHANGE THIS
 class Track extends Component {
   constructor () {
     super()
     this.state = {
-      trackId: ''
+      trackId: '',
+      isActive: null
     }
   } 
 
   handleClick() {
     this.setState({trackId: this.props.track.id})
+    this.setState({ isActive: true})
+  }
+
+  closeAnalysis() {
+    this.setState({ isActive: false })
   }
 
   render() {
     return (
       
-      <div>
+      <div className="track">
         <p><strong>{this.props.track.name}</strong> - {this.props.track.artist}</p>
         <button
           onClick={() => this.handleClick()}>
-          Analysis
+          Show Analysis
         </button>
-        
+        {this.state.isActive ? 
+          <div className="analysis">
+            <Analysis 
+              trackId={this.state.trackId}
+              onClose={this.closeAnalysis.bind(this)}
+            />
+          </div> : null
+        }
+          
       </div>
     )
   }
 }
+
+class Analysis extends Component {
+  constructor() {
+    super()
+    this.state = {
+      audioAnalysis: '',
+      audioFeatures: '',
+    }
+  }
+
+componentDidMount() {
+    this.setState({
+      audioAnalysis: Spotify.analysis(this.props.trackId),
+      audioFeatures: Spotify.features(this.props.trackId),
+    })
+    
+}
+
+componentDidUpdate() {
+  console.log(this.state.audioFeatures)
+}
+
+  render() {
+    return (
+      <div>
+        <p>dancibility</p>
+        <p>tempo</p>
+        <p>bpm</p>
+        <button onClick={this.props.onClose}>close</button> 
+      </div>
+    )
+  }
+}
+
 
 class App extends Component {
 

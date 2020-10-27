@@ -29,14 +29,12 @@ const Spotify = {
 
     },
 
-    select(track) {
-        let trackId = track.id
-        console.log(trackId)
+    analysis(track) {
         let parsed = queryString.parse(window.location.search);
         let accessToken = parsed.access_token;
 
         // AUDIO ANALYSIS
-        return fetch(`https://api.spotify.com/v1/audio-analysis/${trackId}`, {
+        return fetch(`https://api.spotify.com/v1/audio-analysis/${track}`, {
         headers: {
             'Authorization': 'Bearer ' + accessToken
         },
@@ -47,22 +45,27 @@ const Spotify = {
         
         }); 
         
-    } 
+    }, 
+
+
+
+    features(track) {
+        let parsed = queryString.parse(window.location.search);
+        let accessToken = parsed.access_token;
+
+        //AUDIO FEATURES
+        return fetch(`https://api.spotify.com/v1/audio-features/${track}`, {
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        },
+        }).then(response => response.json())
+        .then((jsonResponse) => {
+        
+        console.log(jsonResponse)
+        
+        });
+    }
 
 }
-
-
-    /* //AUDIO FEATURES
-    fetch(`https://api.spotify.com/v1/audio-features/${searchQuery}`, {
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      },
-    }).then(response => response.json())
-    .then((jsonResponse) => {
-      
-      console.log(jsonResponse)
-      
-    }); */
-
 
 export default Spotify

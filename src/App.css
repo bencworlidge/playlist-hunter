@@ -30,10 +30,9 @@ li {
 
 p {
   color: white;
-  background-color: darkgrey;
+
   padding: 8px;
   border-radius: 5px;
-  box-shadow: 1px 1px 5px black;
 }
 
 p:hover {
@@ -77,11 +76,8 @@ input {
   width: 20rem;
 }
 
-.aggregate {
-  font-size: 1rem;
-  text-align: left;
-  padding-left: 2rem;
-  margin-top: 25px;
+.track {
+  background-color: darkgrey;
 }
 
 .searchresults {
