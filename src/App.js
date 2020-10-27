@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import Spotify from './util/Spotify'
+import {Spotify, getTrackFeatures, getTrackAnalysis} from './util/Spotify'
 
 /* TO DO:
 1. Button For Log In 
@@ -111,28 +111,33 @@ class Analysis extends Component {
     }
   }
 
-componentDidMount() {
-    this.setState({
-      audioAnalysis: Spotify.analysis(this.props.trackId),
-      audioFeatures: Spotify.features(this.props.trackId),
-    })
-    
-}
-
-componentDidUpdate() {
-  console.log(this.state.audioFeatures)
-}
-
-  render() {
-    return (
-      <div>
-        <p>dancibility</p>
-        <p>tempo</p>
-        <p>bpm</p>
-        <button onClick={this.props.onClose}>close</button> 
-      </div>
-    )
+  async componentDidMount() {
+      this.setState({
+        audioAnalysis: await getTrackAnalysis(this.props.trackId),
+        audioFeatures:  await getTrackFeatures(this.props.trackId),
+      })
+      
   }
+
+  componentDidUpdate() {
+    console.log(this.state.audioAnalysis)
+    console.log(this.state.audioFeatures)
+  }
+
+    render() {
+      return (
+        <div>
+          {/* <p>tempo: {this.audioFeatures.tempo}</p> */}
+          <p>Length: {this.state.audioFeatures.duration_ms}</p>
+          <p>BPM: {this.state.audioFeatures.tempo}</p>
+          <p>Key: {this.state.audioFeatures.key} {this.state.audioFeatures.mode}</p>
+          <p>Danceability: {this.state.audioFeatures.danceability}</p>
+          <p>Energy: {this.state.audioFeatures.energy}</p>
+          <p>Acousticness {this.state.audioFeatures.acousticness}</p>
+          <button onClick={this.props.onClose}>close</button> 
+        </div>
+      )
+    }
 }
 
 
@@ -178,5 +183,5 @@ class App extends Component {
 
 }
 
-
+console.log(getTrackAnalysis("4JE6agBLHGA5TaF6FlqfBD"))
 export default App;

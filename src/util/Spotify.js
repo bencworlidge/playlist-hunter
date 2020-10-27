@@ -15,57 +15,66 @@ const Spotify = {
         },
         }).then(response => response.json())
         .then((jsonResponse) => {
-        if (!jsonResponse.tracks) {
-            return [];
-        } 
-        //   console.log(jsonResponse.tracks.items)
-        return jsonResponse.tracks.items.map((track) => ({
-            id: track.id,
-            name: track.name,
-            artist: track.artists[0].name,
-        }));
+            if (!jsonResponse.tracks) {
+                return [];
+            } 
+            return jsonResponse.tracks.items.map((track) => ({
+                id: track.id,
+                name: track.name,
+                artist: track.artists[0].name,
+            }));
         
         });
 
     },
 
-    analysis(track) {
+    async analysis(track) {
         let parsed = queryString.parse(window.location.search);
         let accessToken = parsed.access_token;
 
         // AUDIO ANALYSIS
-        return fetch(`https://api.spotify.com/v1/audio-analysis/${track}`, {
-        headers: {
-            'Authorization': 'Bearer ' + accessToken
-        },
-        }).then(response => response.json())
-        .then((jsonResponse) => {
-        
-        console.log(jsonResponse)
-        
-        }); 
-        
+        const response = await fetch(`https://api.spotify.com/v1/audio-analysis/${track}`, {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            },
+        });
+        const jsonResponse = await response.json();
+        if (!jsonResponse) {
+            return [];
+        }
+        return jsonResponse;   
     }, 
 
-
-
-    features(track) {
+    async features(track) {
         let parsed = queryString.parse(window.location.search);
         let accessToken = parsed.access_token;
 
         //AUDIO FEATURES
-        return fetch(`https://api.spotify.com/v1/audio-features/${track}`, {
-        headers: {
-            'Authorization': 'Bearer ' + accessToken
-        },
-        }).then(response => response.json())
-        .then((jsonResponse) => {
-        
-        console.log(jsonResponse)
-        
+        const response = await fetch(`https://api.spotify.com/v1/audio-features/${track}`, {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            },
         });
+        const jsonResponse = await response.json();
+        if (!jsonResponse) {
+            return [];
+        }
+        return jsonResponse;   
     }
-
 }
 
-export default Spotify
+async function getTrackFeatures(track) {
+    const trackFeatures = await Spotify.features(track)
+    return trackFeatures
+}
+
+async function getTrackAnalysis(track) {
+    const trackAnalysis = await Spotify.analysis(track)
+    return trackAnalysis
+}
+
+export {
+    Spotify,
+    getTrackAnalysis,
+    getTrackFeatures,
+}
