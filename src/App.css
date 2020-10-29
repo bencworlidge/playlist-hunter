@@ -4,10 +4,6 @@
   display: flexbox;
 }
 
-body {
-  background-color: #282c34;
-}
-
 h1 {
   font-size: xx-large;
 }
@@ -16,75 +12,183 @@ h2 {
   color: black;
 }
 
-ul {
-  text-align: left;
-  list-style: none;
-}
-
-li {
-  margin: 12px 0px;
-  padding: 5px 10px;
-  background-color: white;
-  color: black;
-}
-
 p {
-  color: white;
-
+  color: rgb(0, 0, 0);
   padding: 8px;
   border-radius: 5px;
 }
 
-p:hover {
-  background-color: rgb(216, 216, 216);
-  cursor: pointer;
+button {
+  margin-top: 20px;
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(0, 0, 0, 1);
+  border: none;
+  outline: none;
+  animation-name: button-fade;
+  animation-duration: 3s;
 }
 
-button {
-  border-radius: 10px;
-  margin-top: 10px;
-  padding: 8px 12px;
-  color: white;
-  background-color: darkgrey;
+@keyframes button-fade {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255, 0);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 1);
+    color: rgb(255, 255, 255, 1);
+  }
 }
 
 button:hover {
-  background-color: rgb(216, 216, 216);
+  background-color: rgb(80, 80, 80);
   cursor: pointer;
+}
+
+i {
+  font-size: xx-large;
 }
 
 /* - Components - */
 
 .App-header {
-  background-color: #282c34;
   color: white;
   padding-left: 2rem;
   text-align: left;
+  display: flex;
 }
 
 .searchbar {
-  background-color: white;
-  margin: 0 15rem;
-  color: white;
-  padding-top: 0.5px;
-  padding-bottom: 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
   border-radius: 5px;
+  margin: auto;
+  width: 40%;
+  animation-name: search-fade-in;
+  animation-duration: 3s;
+  margin-bottom: 2rem;
+}
+
+@keyframes search-fade-in {
+  0% {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+::selection {
+  background: white;
 }
 
 input {
   height: 1.5rem;
-  width: 20rem;
-}
-
-.track {
-  background-color: darkgrey;
+  width: 40%;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: black;
+  border-width: 1px;
+  background-color: rgb(225, 225, 225, 0);
+  outline: none;
+  font-size: medium;
+  color: black;
 }
 
 .searchresults {
   color: black;
   height: 30px;
   text-align: left;
-  padding-left: 1rem;
-  margin-left: 1rem;
-  margin-right: 2rem;
+  margin: auto;
+  width: 30%;
+}
+
+.analysis {
+  height: 15rem;
+  animation-name: slide-fade;
+  animation-duration: 1s;
+  padding-bottom: 1rem;
+}
+
+.track {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-top: 0.05rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding-bottom: 1rem;
+  border-radius: 5px;
+  animation-name: slide-fade;
+  animation-duration: 1s;
+  top: 100px;
+}
+
+@keyframes slide-fade {
+  0% {
+    background-color: rgba(255, 255, 255, 0);
+    top: 5rem;
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.9);
+    top: 0rem;
+  }
+}
+
+.track button {
+  margin: auto;
+  padding: 4px;
+  font-size: small;
+}
+
+.track button i {
+  font-size: small;
+}
+
+.close {
+  transform: rotate(45deg);
+  animation-name: rotate45;
+  animation-duration: 2s;
+}
+
+.footer {
+  color: white;
+  position: fixed;
+  background-color: rgb(0, 0, 0);
+  width: 100%;
+  bottom: 0;
+  height: 1.5rem;
+  padding-bottom: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes rotate45 {
+  0% {
+    rotate: (0deg);
+  }
+  100% {
+    rotate: (45deg);
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .app {
+    background-color: red;
+    width: 100%;
+    margin: 0rem 2rem;
+  }
+
+  .searchbar {
+    width: 90%;
+    margin-bottom: 0.5rem;
+  }
+
+  .track {
+    margin-bottom: 0.5rem;
+  }
+
+  .searchresults {
+    width: 80%;
+  }
 }
