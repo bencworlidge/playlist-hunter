@@ -6,7 +6,6 @@ import Background from './background.mp4'
 /* TO DO:
 1. Button For Log In 
 2. Look up .bind 
-3. Phone compability
 4. Color Scheme / Layout
 7. Look up CCS Modules in React https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/
 8. Filter number of results
@@ -14,6 +13,7 @@ import Background from './background.mp4'
 12. Loading Positioning
 13. Refresh Search
 14. Not returning all keys
+15. Enter for search
 */
 
 class SearchBar extends Component {
@@ -47,7 +47,9 @@ class SearchBar extends Component {
           />
           <br></br>
           <button 
-            onClick={this.search}>
+            onClick={this.search} 
+            onKeyPress={this.enterKey}
+          >
           SEARCH
           </button>
         
@@ -60,19 +62,23 @@ class SearchBar extends Component {
 }
 
 class SearchResults extends Component {
-  
+
+
+
   render() {
     return (
       
       <div className="searchresults">
-        {this.props.tracks.map((track, i) => {
-          return (
-            <Track
-              key={i}
-              track={track}
-            />         
-          );
-        })}
+        
+          {this.props.tracks.map((track, i) => {
+            return (
+              <Track
+                key={i}
+                track={track}
+                onSearch={this.props.previousSearch}
+              />         
+            );
+          })}
       </div>
     )
   }
@@ -160,12 +166,12 @@ class Analysis extends Component {
 }
 
 class App extends Component {
-
   constructor(props) {
     super() 
     this.state = {
       tracks: [],
       trackId: '',
+      previousSearch: false
     }
     this.search = this.search.bind(this);
   }
@@ -174,10 +180,8 @@ class App extends Component {
     Spotify.search(searchQuery).then((searchResults) => {
       this.setState({ tracks: searchResults });
     });
-    this.setState({ searchOn: true });
+    this.setState({ previousSearch: true });
   }
-
-  
   
   render() {
     return (
@@ -205,6 +209,7 @@ class App extends Component {
         />
         <SearchResults 
           tracks = {this.state.tracks}
+          onSearch = {this.state.previousSearch}
         />
       </div>
     )
