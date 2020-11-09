@@ -14,6 +14,10 @@ import Background from './background.mp4'
 13. Refresh Search
 14. Not returning all keys
 15. Enter for search
+16. Little dancing SVG based on the results. Danceability/Energy alters the charcter mood.
+17. Look up accessibility
+18. The DOTS social network
+19. Different file for each component
 */
 
 class SearchBar extends Component {
@@ -62,9 +66,6 @@ class SearchBar extends Component {
 }
 
 class SearchResults extends Component {
-
-
-
   render() {
     return (
       
@@ -104,7 +105,6 @@ class Track extends Component {
 
   render() {
     return (
-      
       <div className="track" >
         <p><strong>{this.props.track.name}</strong> - {this.props.track.artist}</p>
         {this.state.isActive ?
